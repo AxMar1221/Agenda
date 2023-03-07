@@ -22,7 +22,7 @@ export const SideBar = ({ drawerWidth = 240 }) => {
                     noWrap
                     component='div'
                 >
-                    Tachi Dito
+                    Vila
                 </Typography>
             </Toolbar>
             <Divider />
