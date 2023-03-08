@@ -1,4 +1,5 @@
-import { useDispatch } from "react-redux";
+import { useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { Button, Grid, Link, TextField, Typography } from "@mui/material";
 import { Google } from "@mui/icons-material";
@@ -11,22 +12,23 @@ import {
 } from "../../store/auth/";
 
 export const LoginPage = () => {
+  const { status } = useSelector( state => state.auth );
   const dispatch = useDispatch();
 
   const { email, password, onInputChange, formState } = useForm({
     email: "tachidito_7inc@hotmail.com",
-    password: "xaew7u8ui",
+    password: "1234567",
   });
+
+  const isAuthenticated = useMemo( () => status === 'checking', [status]);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    console.log({ email, password });
     dispatch(checkingAuthentication());
   };
 
   const onGoogleSingIn = (event) => {
     event.preventDefault();
-    console.log("onGoogleSingIn");
     dispatch(startGoogleSingIn());
   };
 
@@ -65,7 +67,8 @@ export const LoginPage = () => {
                 xs={{ color: "white" }}
                 fullWidth
                 type="submit"
-              >
+                disable={ isAuthenticated }
+                >
                 Login
               </Button>
             </Grid>
@@ -76,6 +79,7 @@ export const LoginPage = () => {
                 xs={{ color: "white" }}
                 fullWidth
                 onClick={onGoogleSingIn}
+                disable={ isAuthenticated }
               >
                 <Google />
                 <Typography sx={{ ml: 1 }}>Google</Typography>
