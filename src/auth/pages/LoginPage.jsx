@@ -6,25 +6,22 @@ import { Google } from "@mui/icons-material";
 
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
-import {
-  checkingAuthentication,
-  startGoogleSingIn,
-} from "../../store/auth/";
+import { startGoogleSingIn, startLoginWithEmailPassword } from "../../store/auth/";
 
 export const LoginPage = () => {
-  const { status } = useSelector( state => state.auth );
+  const { status, errorMessage } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const { email, password, onInputChange, formState } = useForm({
-    email: "tachidito_7inc@hotmail.com",
-    password: "1234567",
+  const { email, password, onInputChange } = useForm({
+    email: "",
+    password: "",
   });
 
-  const isAuthenticated = useMemo( () => status === 'checking', [status]);
+  const isAuthenticated = useMemo(() => status === "checking", [status]);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    dispatch(checkingAuthentication());
+    dispatch(startLoginWithEmailPassword({ email, password }));
   };
 
   const onGoogleSingIn = (event) => {
@@ -51,6 +48,7 @@ export const LoginPage = () => {
           <Grid item xs={12} sx={{ mt: 2 }}>
             <TextField
               label="password"
+              autoComplete="off"
               type="password"
               placeholder="Contraseña"
               fullWidth
@@ -67,8 +65,8 @@ export const LoginPage = () => {
                 xs={{ color: "white" }}
                 fullWidth
                 type="submit"
-                disable={ isAuthenticated }
-                >
+                disable={isAuthenticated}
+              >
                 Login
               </Button>
             </Grid>
@@ -79,7 +77,7 @@ export const LoginPage = () => {
                 xs={{ color: "white" }}
                 fullWidth
                 onClick={onGoogleSingIn}
-                disable={ isAuthenticated }
+                disable={isAuthenticated}
               >
                 <Google />
                 <Typography sx={{ ml: 1 }}>Google</Typography>

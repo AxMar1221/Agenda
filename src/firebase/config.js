@@ -7,12 +7,13 @@ import { getFirestore } from "firebase/firestore/lite";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyDyyNXlFZmFV9S9hjnr9TROeof8kTwYC7I",
-  authDomain: "react-projects-54bfe.firebaseapp.com",
-  projectId: "react-projects-54bfe",
-  storageBucket: "react-projects-54bfe.appspot.com",
-  messagingSenderId: "751221179564",
-  appId: "1:751221179564:web:b9380fc746316752548b09"
+  apiKey: "AIzaSyDxTOPakM-lRnVhXDy4KHdWuXdF_KaOH1M",
+  authDomain: "agenda-226d9.firebaseapp.com",
+  projectId: "agenda-226d9",
+  storageBucket: "agenda-226d9.appspot.com",
+  messagingSenderId: "743589754891",
+  appId: "1:743589754891:web:76e6fb789db38c28096f0e",
+  measurementId: "G-BXFSTMT7RD"
 };
 
 // Initialize Firebase

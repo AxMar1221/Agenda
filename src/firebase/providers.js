@@ -1,4 +1,4 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { FirebaseAuth } from "./config";
 
 const googleProvider = new GoogleAuthProvider();
@@ -27,4 +27,50 @@ export const signInWithGoogle = async() => {
         } 
         
     }
+}
+
+export const registerUserWhitEmailPassword = async({ email, password, displayName }) => {
+    try {
+        console.log({email, password, displayName});
+
+        const resp = await createUserWithEmailAndPassword( FirebaseAuth, email, password );
+        const { uid, photoURL } = resp.user
+        await updateProfile( FirebaseAuth.currentUser, { displayName } );
+
+        console.log(resp);
+
+        return {
+            ok: true,
+            uid, photoURL, email, displayName
+        }
+
+    } catch (error) {
+        return {
+            ok: false,
+            errorMessage: 'Email ya esta registrado'
+        }
+
+    }
+}
+
+export const loginWithEmailPassword = async({email, password}) => {
+    try {
+        
+        const resp = await signInWithEmailAndPassword(FirebaseAuth, email, password);
+        const { uid, photoURL, displayName } = resp.user
+        console.log(resp)
+
+        return {
+            ok: true,
+            uid, photoURL, displayName
+        }
+
+        
+    } catch (error) {
+        return {
+            ok: false,
+            errorMessage: 'Email o Password incorrectos'
+        }
+    }
+
 }
