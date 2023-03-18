@@ -1,16 +1,28 @@
-import { Route, Routes } from 'react-router-dom';
-import { AgendaRoutes } from '../agenda/routes/AgendaRoutes';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { AuthRoutes } from "../auth/routes/AuthRoutes";
+import { AgendaRoutes } from '../agenda/routes/AgendaRoutes';
+
+import { CheckingAuth } from '../ui/';
+import { useCheckAuth } from '../hooks';
 
 
 export const AppRouter = () => {
+
+  const { status } = useCheckAuth()
+
+  if ( status === 'checking' ){
+    return <CheckingAuth />
+  }
+
   return (
     <Routes>
-        //login
-        <Route path="/auth/*" element={ <AuthRoutes />}/>
-        //AgendaApp
-        <Route path="/*" element={ <AgendaRoutes /> } />
+        {
+          ( status === 'authenticated')
+          ? <Route path="/*" element={ <AgendaRoutes /> } />
+          : <Route path="/auth/*" element={ <AuthRoutes />}/>
+        }
+        <Route path='/*' element={ <Navigate to='/auth/login' /> } />
     </Routes>
   )
 }
