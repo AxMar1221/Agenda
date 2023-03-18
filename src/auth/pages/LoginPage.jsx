@@ -6,7 +6,7 @@ import { Google } from "@mui/icons-material";
 
 import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
-import { startGoogleSingIn, startLoginWithEmailPassword } from "../../store/auth/";
+import { startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth/";
 
 export const LoginPage = () => {
   const { status, errorMessage } = useSelector((state) => state.auth);
@@ -26,7 +26,7 @@ export const LoginPage = () => {
 
   const onGoogleSingIn = (event) => {
     event.preventDefault();
-    dispatch(startGoogleSingIn());
+    dispatch(startGoogleSignIn);
   };
 
   return (
