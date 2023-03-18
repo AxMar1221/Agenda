@@ -26,7 +26,7 @@ export const LoginPage = () => {
 
   const onGoogleSingIn = (event) => {
     event.preventDefault();
-    dispatch(startGoogleSignIn);
+    dispatch(startGoogleSignIn());
   };
 
   return (
