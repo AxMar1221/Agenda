@@ -8,14 +8,16 @@ import { AuthLayout } from "../layout/AuthLayout";
 import { useForm } from "../../hooks";
 import { startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth/";
 
+const formData = {
+  email: "",
+  password: ""
+}
+
 export const LoginPage = () => {
   const { status, errorMessage } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const { email, password, onInputChange } = useForm({
-    email: "",
-    password: "",
-  });
+  const { email, password, onInputChange } = useForm(formData);
 
   const isAuthenticated = useMemo(() => status === "checking", [status]);
 
@@ -82,7 +84,7 @@ export const LoginPage = () => {
                 xs={{ color: "white" }}
                 fullWidth
                 type="submit"
-                disable={isAuthenticated}
+                disabled={isAuthenticated}
               >
                 Login
               </Button>
@@ -94,7 +96,7 @@ export const LoginPage = () => {
                 xs={{ color: "white" }}
                 fullWidth
                 onClick={onGoogleSingIn}
-                disable={isAuthenticated}
+                disabled={isAuthenticated}
               >
                 <Google />
                 <Typography sx={{ ml: 1 }}>Google</Typography>
