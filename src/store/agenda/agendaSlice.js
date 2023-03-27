@@ -10,43 +10,48 @@ export const agendaSlice = createSlice({
   },
   reducers: {
     savingNewNote: (state) => {
-        state.isSaving = true;
+      state.isSaving = true;
     },
     addNewEmptyNote: (state, action) => {
-        state.notes.push( action.payload );
-        state.isSaving = false;
+      state.notes.push(action.payload);
+      state.isSaving = false;
     },
     setActiveNote: (state, action) => {
-        state.active = action.payload;
-        state.messageSaved = '';
+      state.active = action.payload;
+      state.messageSaved = "";
     },
     setNotes: (state, action) => {
-        state.notes = action.payload
+      state.notes = action.payload;
     },
     setSaving: (state) => {
       state.isSaving = true;
-      state.messageSaved = '';
+      state.messageSaved = "";
     },
     updateNote: (state, action) => {
       state.isSaving = false;
-      state.notes = state.notes.map( note => {
-        if ( note.id === action.payload.id ) {
+      state.notes = state.notes.map((note) => {
+        if (note.id === action.payload.id) {
           return action.payload;
         }
         return note;
       });
-      state.messageSaved = `${ action.payload.title}, actualizada correctamente`;
+      state.messageSaved = `${action.payload.title}, actualizada correctamente`;
+    },
+    setPhotosToActiveNote: (state, action) => {
+      state.active.imageUrls = [...state.active.imageUrls, ...action.payload];
+      state.isSaving = false;
     },
     deleteNoteById: (state, action) => {},
   },
 });
 
 export const {
-    savingNewNote,
-    addNewEmptyNote,
-    setActiveNote,
-    setNotes,
-    setSaving,
-    updateNote,
-    deleteNoteById,
+  savingNewNote,
+  addNewEmptyNote,
+  setActiveNote,
+  setNotes,
+  setSaving,
+  updateNote,
+  setPhotosToActiveNote,
+  deleteNoteById,
 } = agendaSlice.actions;
