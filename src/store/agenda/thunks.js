@@ -1,9 +1,10 @@
-import { collection, doc, setDoc } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import { fileUpload } from "../../helpers";
 import { loadNotes } from "../../helpers/loadNotes";
 import {
   addNewEmptyNote,
+  deleteNoteById,
   savingNewNote,
   setActiveNote,
   setNotes,
@@ -21,12 +22,13 @@ export const startNewNote = () => {
     const newNote = {
       title: "",
       body: "",
+      imageUrls: [],
       date: new Date().getTime(),
     };
 
     const newDoc = doc(collection(FirebaseDB, `${uid}/agenda/notes`));
     const setDocResp = await setDoc(newDoc, newNote);
-    console.log({ newDoc, setDocResp });
+    // console.log({ newDoc, setDocResp });
 
     newNote.id = newDoc.id;
     //dispatch
@@ -77,3 +79,15 @@ export const startUploadingFiles = (files = []) => {
 
   };
 };
+
+export const startDeletingNote = () => {
+  return async( dispatch, getState ) => {
+    const { uid } = getState().auth;
+    const { active: note } = getState(). agenda;
+
+    const docRef = doc( FirebaseDB, `${ uid }/agenda/notes/${ note.id }`);
+    await deleteDoc( docRef )
+
+    dispatch( deleteNoteById( note.id ));
+  }
+}
